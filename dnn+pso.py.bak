@@ -146,6 +146,11 @@ def propagate_forward():
     return cost_function(y_output, full_outputs_lastm)
 
 
+def propagate_backward(y_real,y_pred,sgmdrv,):
+    subtraction=-1*(y_real-y_pred)
+    sgmder=sigmoid_derivative(sgmdrv)
+
+    print("yapım aşamasında...")
 
 
 find_layerneuronnumb()

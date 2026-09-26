@@ -7,8 +7,8 @@ prodnnv10'da bias yoktur ve katmanlar transition_per ile daralır. 2 girişli
 XOR için: int(2 * 2/3) = 1, çıkış sayısından (1) büyük değil -> gizli katman
 oluşmaz, ağ [2, 1] olur. Tek nöron, biassız: XOR imkânsızdır (her girişte 0.5).
 
-Girişlere sabit 1 değerli bir sütun eklemek (bias="input") orijinal koda
-dokunmadan iki sorunu birden çözer: ağ [3, 2, 1] olur ve ilk katmanın biası olur.
+Girişlere sabit 1 değerli bir sütun eklemek (bias="input") iki sorunu
+birden çözer: ağ [3, 2, 1] olur ve ilk katmanın biası olur.
 """
 import sys
 from pathlib import Path

@@ -4,7 +4,7 @@
     python examples/01_orijinal_ve_hizli_motor.py
 
 1. Aynı veri, aynı PSO bütçesi ve aynı tohum (seed) ile önce orijinal
-   prodnnv10 sınıfı (class_prodnn.py, değiştirilmeden), sonra hızlı motor eğitilir.
+   prodnnv10 sınıfı (class_prodnn.py), sonra hızlı motor eğitilir.
 2. Hızlı motorun bulduğu ağırlıklar prodnnv10 biçimine çevrilip gerçek bir
    prodnnv10 nesnesine yüklenir; orijinal kodun kendi ileri beslemesi aynı
    tahminleri üretir.

@@ -9,9 +9,13 @@
 
 | | |
 | :--- | :--- |
-| 🧠 **Orijinal algoritma** | `class_prodnn.py` (`prodnnv10` sınıfı) ve `dnn+pso.py` - İlhan Koçaslan, 2022. **Değiştirilmez**; bir test bu dosyaların parmak izini denetler. |
+| 🧠 **Orijinal algoritma** | `class_prodnn.py` (`prodnnv10` sınıfı) ve `dnn+pso.py` - İlhan Koçaslan, 2022. |
 | ⚡ **`dnnpso` katmanı** | Aynı modeli NumPy ile hesaplayan hızlı motor (orijinalle **birebir aynı** sonuç), `fit` / `predict` / `save` arayüzü, komut satırı, kara kutu eğitimi. |
 | 📈 **Ölçülen** | 1 000 örnekte orijinalden **1 881 kat hızlı**, **103 kat az bellek**; aynı tohumla aynı eğitim sonucu. |
+
+![İki hilal verisinde PSO ile eğitilen ağın karar sınırı ve eğitim maliyet eğrisi](docs/images/egitim_ve_karar_siniri.png)
+
+*Solda: iki hilal verisinde ağın öğrendiği bölgeler (siyah çizgi = karar sınırı, noktalar eğitimde görülmemiş test örnekleri). Sağda: üç ayrı başlangıçtan PSO eğitimi; en iyi sonuç tutulur.*
 
 ---
 
@@ -60,6 +64,10 @@ PSO ile eğitim, büyük derin ağlarda geri yayılımın yerini tutmaz (bkz. [S
 | **Küçük ağ, az veri** | Az sayıda ağırlıkta PSO hızlı yakınsar | [`examples/01_orijinal_ve_hizli_motor.py`](examples/01_orijinal_ve_hizli_motor.py) | Küçük ağlarda PSO, geri yayılımdan hızlı yakınsadı [2] |
 | **PSO + geri yayılım (hibrit)** | PSO iyi bir başlangıç bulur, gradyan yöntemi ince ayar yapar | `to_prodnn_weights()` ile ağırlıklar dışa aktarılır | PSO-BP hibrit eğitimi [3] |
 | **Otomatik mimari** | Tek bir oranla giderek daralan katmanlar | `transition_per` (orijinal fikir) | Masters'ın "geometrik piramit kuralı"nın [6] genelleştirilmiş bir biçimi |
+
+![Su tankı: yalnızca simülasyonla eğitilen sinir ağı kontrolcüsü ve klasik PI](docs/images/su_tanki.png)
+
+*Örnek 4: hiçbir etiket ve tank denklemi olmadan, yalnızca simülasyonla eğitilen sinir ağı (mavi), eğitimde hiç görmediği hedef dizisini ayarlı bir PI (turuncu) kadar iyi izliyor; vana hareketi ise daha yumuşak.*
 
 ---
 
@@ -217,7 +225,7 @@ Sonuç Mimarisi: **`[3, 2, 1]`** (Toplam 8 ağırlık boyutu).
 
 ## 🔍 Orijinal Kodun Davranışları ve `dnnpso` Karşılıkları
 
-Aşağıdakiler orijinal kodda ölçülerek bulundu. Orijinal dosyalar değiştirilmedi; her biri `dnnpso` tarafında karşılanır.
+Aşağıdakiler orijinal kodda ölçülerek bulundu; her biri `dnnpso` tarafında karşılanır.
 
 | Orijinalde | Ölçülen etkisi | `dnnpso`'da |
 | :--- | :--- | :--- |
@@ -267,7 +275,7 @@ Motorun kendisi: `FastProdnn.pyramid(3, 1, 2/3)`, `FastProdnn.from_prodnn(model)
 
 ## 📖 `prodnnv10` Sınıf Kılavuzu
 
-Kendi kodunuzda `class_prodnn.py` dosyasını değiştirmeden içe aktararak kullanabilirsiniz:
+Kendi kodunuzda `class_prodnn.py` dosyasını içe aktararak kullanabilirsiniz:
 
 ```python
 from class_prodnn import prodnnv10
@@ -317,8 +325,8 @@ Veri biçimi (JSON): giriş `[[0.5, 1.2, -0.3], [1.0, 0.2, 0.8]]`, çıkış `[1
 
 ```
 DNN_PSO/
-├── class_prodnn.py                 # prodnnv10 sınıfı (orijinal algoritma, değiştirilmez)
-├── dnn+pso.py                      # Prototip PSO betiği (orijinal geliştirme kodu, değiştirilmez)
+├── class_prodnn.py                 # prodnnv10 sınıfı (orijinal algoritma)
+├── dnn+pso.py                      # Prototip PSO betiği (orijinal geliştirme kodu)
 ├── example.py / run.bat            # Orijinal sınıfla hızlı başlangıç
 ├── dnnpso/                         # Kullanıma hazır katman
 │   ├── engine.py                   #   FastProdnn: aynı model, NumPy ile, tüm sürü tek seferde
@@ -329,7 +337,8 @@ DNN_PSO/
 │   └── cli.py                      #   python -m dnnpso train / predict / info
 ├── examples/                       # 5 çalışan örnek (yukarıda)
 ├── benchmarks/                     # hız-bellek ve varsayılan ayar ölçümleri
-├── tests/test_dnnpso.py            # eşdeğerlik, API, komut satırı, orijinal dosya koruması
+├── docs/make_figures.py            # README görselleri (docs/images/)
+├── tests/test_dnnpso.py            # eşdeğerlik, API, komut satırı
 ├── data/                           # data_x/y.json (3 giriş), xor_x/y.json (2 giriş)
 ├── particle-swarm-optimization.pdf # PSO teorik makalesi
 └── requirements.txt
@@ -343,9 +352,8 @@ DNN_PSO/
 python -m unittest discover -s tests -v       # 16 test, ~2 sn
 python benchmarks/speed_memory.py             # orijinal vs hızlı motor (~6 dk; --skip-original ile saniyeler)
 python benchmarks/defaults_study.py           # varsayılan ayar çalışması (~30 sn)
+python docs/make_figures.py                   # README görsellerini yeniden üretir
 ```
-
-`test_original_files_are_unchanged`, `class_prodnn.py` ve `dnn+pso.py` dosyalarının SHA-256 parmak izini denetler; orijinal kod yanlışlıkla değişirse test başarısız olur.
 
 ---
 

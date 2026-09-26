@@ -341,6 +341,8 @@ DNN_PSO/
 ├── tests/test_dnnpso.py            # eşdeğerlik, API, komut satırı
 ├── data/                           # data_x/y.json (3 giriş), xor_x/y.json (2 giriş)
 ├── particle-swarm-optimization.pdf # PSO teorik makalesi
+├── Adsız.png                       # İlk sürümün maliyet-iterasyon grafiği (10 000 iterasyon)
+├── LICENSE                         # MIT lisansı
 └── requirements.txt
 ```
 

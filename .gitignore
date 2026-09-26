@@ -17,3 +17,6 @@ env/
 Thumbs.db
 Desktop.ini
 .DS_Store
+
+# pyswarms run log
+report.log
